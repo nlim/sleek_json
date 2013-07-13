@@ -19,14 +19,14 @@ class FinderSpec extends FunSpec with ShouldMatchers {
   val BarValue = OBJ ~> "bar" ~> DOUBLE
 
   it("should find the nested Json Object") {
-    Foo.find(jElement) should be (Some(JObject(Map("x" -> JArray(Vector(JInteger(1),JInteger(2)))))))
+    (jElement >>: Foo) should be (Some(JObject(Map("x" -> JArray(Vector(JInteger(1),JInteger(2)))))))
   }
 
   it("should find the second element of the x array") {
-    SecondXArrayValue.find(jElement) should be (Some(2))
+    (jElement >>: X ~> 1 ~> INT) should be (Some(2))
   }
 
   it("should find the bar value") {
-    BarValue.find(jElement) should be (Some(2.0))
+    (jElement >>: BarValue) should be (Some(2.0))
   }
 }

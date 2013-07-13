@@ -21,6 +21,7 @@ object Finder {
 
 sealed trait Finder[-A, +B] {
   def find(e: A): Option[B]
+  def >>:(e: A): Option[B] = find(e)
   def obtain(e: A) = find(e).getOrElse(null)
   def apply(e: A) = find(e)
   def unapply(e: A): Option[B] = find(e)
