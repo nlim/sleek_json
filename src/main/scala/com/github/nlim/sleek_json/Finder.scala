@@ -12,11 +12,7 @@ object Finder {
   implicit def stringToKeyValueFinder(s: String): ValueAtKey = ValueAtKey(s)
 
 
-  val OBJ = JObjectFinder
-  val ARR = JArrayFinder
-  val STRING = JStringFinder
-  val INT = JIntegerFinder
-  val DOUBLE = JDoubleFinder
+
 }
 
 sealed trait Finder[-A, +B] {

@@ -1,14 +1,13 @@
 package com.github.nlim.sleek_json
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import Finder._
-
+import Json._
 
 class FinderSpec extends FunSpec with ShouldMatchers {
 
   val rawJson = "{\"foo\": {\"x\": [1, 2]}, \"bar\": 2.0, \"baz\": [\"a\", \"b\"]}"
 
-  val jElement = Json.parse(rawJson)
+  val jElement = parseJson(rawJson)
 
   val Foo = OBJ ~> "foo"
 

@@ -7,7 +7,15 @@ import scala.collection.JavaConversions.asScalaIterator
 
 object Json {
 
-  def parse(s: String): JElement = construct(parser(s))
+  def parseJson(s: String): JElement = construct(parser(s))
+
+  // Finders
+  val OBJ = JObjectFinder
+  val ARR = JArrayFinder
+  val STRING = JStringFinder
+  val INT = JIntegerFinder
+  val DOUBLE = JDoubleFinder
+  val BOOL = JBooleanFinder
 
   private val parser: String => JsonNode = (new ObjectMapper()).readTree
 
