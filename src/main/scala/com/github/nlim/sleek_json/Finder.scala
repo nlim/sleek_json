@@ -6,6 +6,17 @@ object Finder {
       def find(a: A): Option[C] = outer.find(a).flatMap(b => inner.find(b))
     }
   }
+
+  implicit def intToIndexFinder(i: Int): ValueAtIndex = ValueAtIndex(i)
+
+  implicit def stringToKeyValueFinder(s: String): ValueAtKey = ValueAtKey(s)
+
+
+  val OBJ = JObjectFinder
+  val ARR = JArrayFinder
+  val STRING = JStringFinder
+  val INT = JIntegerFinder
+  val DOUBLE = JDoubleFinder
 }
 
 sealed trait Finder[-A, +B] {
@@ -15,6 +26,7 @@ sealed trait Finder[-A, +B] {
   def unapply(e: A): Option[B] = find(e)
   def ~>[C](f: Finder[B, C]) = Finder.compose(this, f)
 }
+
 
 object JObjectFinder extends Finder[JElement, JObject] {
   def find(e: JElement) = e match { case jo @ JObject(_) => Some(jo) case _ => None }

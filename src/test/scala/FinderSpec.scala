@@ -1,25 +1,25 @@
 package com.github.nlim.sleek_json
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import java.lang.Double
+import Finder._
 
 
 class FinderSpec extends FunSpec with ShouldMatchers {
 
   val rawJson = "{\"foo\": {\"x\": [1, 2]}, \"bar\": 2.0, \"baz\": [\"a\", \"b\"]}"
 
-  val jElement = JElement.construct(rawJson)
+  val jElement = Json.parse(rawJson)
 
-  val FooValue: Finder[JElement, JObject] = JObjectFinder ~> ValueAtKey("foo") ~> JObjectFinder
+  val Foo = OBJ ~> "foo"
 
-  val XValue: Finder[JElement, JArray] = FooValue ~> ValueAtKey("x") ~> JArrayFinder
+  val X = Foo ~> OBJ ~> "x" ~> ARR
 
-  val SecondXArrayValue: Finder[JElement, Integer] = XValue ~> ValueAtIndex(1) ~> JIntegerFinder
+  val SecondXArrayValue = X ~> 1 ~> INT
 
-  val BarValue: Finder[JElement, Double] = JObjectFinder ~> ValueAtKey("bar") ~> JDoubleFinder
+  val BarValue = OBJ ~> "bar" ~> DOUBLE
 
   it("should find the nested Json Object") {
-    FooValue.find(jElement) should be (Some(JObject(Map("x" -> JArray(Vector(JInteger(1),JInteger(2)))))))
+    Foo.find(jElement) should be (Some(JObject(Map("x" -> JArray(Vector(JInteger(1),JInteger(2)))))))
   }
 
   it("should find the second element of the x array") {
